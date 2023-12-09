@@ -2,23 +2,23 @@
 
 // export const Footer = () => {
 // return ( 
-//     <section style={{backgroundColor: "#a8c6fa"}}>
+//     <section style={{backgroundColor: "#a8c6fa"}} className="mt-4">
 //         <Container id="footer">
 //             <div id="footer__text">
 //                 <h1>Envíanos tu consulta</h1>
-//                 <div id="footer__consulta-telefono">
-//                     <img id="footer-consulta-telefono-icono" src="https://www.shutterstock.com/image-vector/cell-phone-vector-icon-telephone-260nw-2013960935.jpg" alt="teléfono"/>
+//                 <div id="footer-consulta-telefono">
+//                     <img id="footer-consulta-telefono-icono" src="../assets/telefono.png" alt="telefono"/>
 //                     <p>11-4428-0904</p>
 //                 </div>
-//                 <div id="footer__consulta-mail">
-//                     <img id="footer__consulta-mail-icono" src="" alt="mail"/>
+//                 <div id="footer-consulta-mail">
+//                     <img id="footer__consulta-mail-icono" src="../assets/mail.png" alt="mail"/>
 //                     <p>andyrosenfeld46@gmail.com</p>
 //                 </div>
 //                 </div>
-//                 <form action="input">
+//                 <form id="footer-form" action="input">
 //                     <h3>Suscribite a nuestro newsletter</h3>
 //                     <input placeholder="email"/>
-//                     <button>Suscribirme</button>
+//                     <button className="footer-button">Suscribirme</button>
 //                 </form> 
 //         </Container>
 //     </section>

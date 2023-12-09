@@ -1,7 +1,13 @@
 import { useState } from "react"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const ItemCounter = ({onAdd, stock, initial}) => {
-    const [count, setCount] = useState(initial)
+    const [count, setCount] = useState(initial);
+    
+    const notify = () => {
+        toast("Has añadido el producto al carrito");
+    };
     
     const handleDecreaseCount = () => {
         if(count > 1){
@@ -18,7 +24,7 @@ export const ItemCounter = ({onAdd, stock, initial}) => {
     const handleAdd = () => {
         onAdd(count)
         setCount(initial)
-        alert("Has añadido el producto al carrito")
+        notify()
     }
 
     return (
@@ -35,6 +41,7 @@ export const ItemCounter = ({onAdd, stock, initial}) => {
             <button className="mt-2" onClick={handleAdd}>
                 Agregar al carrito
             </button>
+            <ToastContainer hideProgressBar={true}autoClose={1000}  />
         </>
     )
 }

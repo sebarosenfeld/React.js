@@ -9,7 +9,7 @@ export const ItemDetail = ({item}) => {
     const {onAdd} = useContext(CartContext);
 
     const add = (quantity) => {
-        onAdd(item);
+        onAdd(item, quantity);
     }
 
     return (

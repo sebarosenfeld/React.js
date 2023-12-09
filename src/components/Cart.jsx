@@ -13,6 +13,9 @@ const initialValues = {
 
 export const Cart = () => {
     const {clear, items, onRemove} = useContext(CartContext);
+    const [ phoneError, setPhoneError] = useState(false);
+    const [ emailError, setEmailError] = useState(false);
+    const [ nameError, setNameError] = useState(false);
     
     const [ buyer, setBuyer] = useState(initialValues);
     
@@ -21,6 +24,23 @@ export const Cart = () => {
     const total = items.reduce((acumulador, valorActual) => acumulador + valorActual.quantity * valorActual.price, 0);
 
     const handleChange = (event) =>{
+        switch(event.target.name) {
+            case "phone":
+                setPhoneError(false);
+                break;
+            case "name":
+                setNameError(false);
+                break;
+            case "email":
+                setEmailError(false);
+                break;
+                default:
+                    break;
+        }
+        guardarValor(event);
+    }
+
+    const guardarValor = (event) =>{
         setBuyer (buyer => {
             return {
                 ...buyer,
@@ -29,25 +49,37 @@ export const Cart = () => {
         })
     }
 
+
     const sendOrder = (ev) => {
         ev.preventDefault();
-
-        const order = {
-            buyer,
-            items,
-            total: 1,
-        };
-
-        const db = getFirestore();
-        const orderCollection = collection(db, "items");
-
-        addDoc(orderCollection, order).then(({id}) => {
-            if (id) {
-                alert("su orden: " + id + " ha sido completada!");
-                setBuyer(initialValues);
-                clear();
+        if (buyer.phone > 0 && buyer.email !== "" && buyer.name !== "" ) {
+            const order = {
+                buyer,
+                items,
+                total: 1,
+            };
+    
+            const db = getFirestore();
+            const orderCollection = collection(db, "orders");
+    
+            addDoc(orderCollection, order).then(({id}) => {
+                if (id) {
+                    alert("su orden: " + id + " ha sido completada!");
+                    setBuyer(initialValues);
+                    clear();
+                }
+            });
+        } else {
+            if (buyer.phone <= 0) {
+                setPhoneError(true)
             }
-        });
+            if (buyer.email === "") {
+                setEmailError(true)
+            }
+            if (buyer.name === "") {
+                setNameError(true)
+            }
+        }
     };
 
     if(!items.length) {
@@ -99,7 +131,11 @@ export const Cart = () => {
         onChange={handleChange}
         name="email"
         required
-        />
+        isInvalid={!!emailError}
+      />
+      <Form.Control.Feedback type="invalid">
+        El email no es valido
+      </Form.Control.Feedback>
       </Form.Group>
       <Form.Group className="mb-3">
         <Form.Label>Name</Form.Label>
@@ -109,17 +145,25 @@ export const Cart = () => {
         onChange={handleChange}
         name="name"
         required
-        />
+        isInvalid={!!nameError}
+      />
+      <Form.Control.Feedback type="invalid">
+        El nombre no es valido
+      </Form.Control.Feedback>
       </Form.Group>
       <Form.Group className="mb-3">
         <Form.Label>Phone</Form.Label>
         <Form.Control
-        type="text"
+        type="tel"
         value={buyer.phone}
         onChange={handleChange}
         name="phone"
         required
-        />
+        isInvalid={!!phoneError}
+      />
+      <Form.Control.Feedback type="invalid">
+        El telefono no es valido
+      </Form.Control.Feedback>
       </Form.Group>
       <Button variant="primary" type="submit" onClick={sendOrder}>
         Enviar
